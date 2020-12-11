@@ -1,0 +1,12 @@
+node_modules
+.DS_Store
+.idea
+.env
+system/*
+!system/.gitkeep
+!*.gitkeep
+test.*
+logs/*
+package-lock.json
+database/system.db
+resources/*

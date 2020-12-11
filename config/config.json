@@ -1,0 +1,35 @@
+{
+  "development": {
+    "node_rpc_ip": "127.0.0.1",
+    "node_rpc_port": 3000,
+    "latest_api_version" : "v1.0",
+    "remoteWhitelist": [
+      "127.0.0.1",
+      "178.148.85.7",
+      "198.211.125.230",
+      "198.211.125.138"
+    ]
+  },
+  "staging": {
+    "node_rpc_ip": "127.0.0.1",
+    "node_rpc_port": 3000,
+    "latest_api_version" : "v1.0",
+    "remoteWhitelist": [
+      "127.0.0.1",
+      "178.148.85.7",
+      "198.211.125.230",
+      "198.211.125.138"
+    ]
+  },
+  "production": {
+    "node_rpc_ip": "127.0.0.1",
+    "node_rpc_port": 3000,
+    "latest_api_version" : "v1.0",
+    "remoteWhitelist": [
+      "127.0.0.1",
+      "178.148.85.7",
+      "198.211.125.230",
+      "198.211.125.138"
+    ]
+  }
+}

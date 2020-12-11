@@ -1,0 +1,50 @@
+{
+  "name": "openpkg-services",
+  "version": "1.0.0",
+  "description": "OriginTrail based services for SSI enabled personal knowledge graph management (OpenPKG project)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OriginTrail/openpkg-services.git"
+  },
+  "keywords": [
+    "origintrail",
+    "tracelabs",
+    "openpkg"
+  ],
+  "author": "tracelabs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OriginTrail/openpkg-services/issues"
+  },
+  "homepage": "https://github.com/OriginTrail/openpkg-services#readme",
+  "dependencies": {
+    "@tracelabs/command-executor": "^1.0.5",
+    "awilix": "^3.0.9",
+    "axios": "^0.20.0",
+    "babel-eslint": "^10.1.0",
+    "dotenv": "^8.2.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.9.1",
+    "ip": "^1.1.5",
+    "js-sha3": "^0.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "passport": "^0.4.1",
+    "passport-http-bearer": "^1.0.1",
+    "restify": "^7.2.1",
+    "restify-cors-middleware": "^1.1.1",
+    "restify-errors": "^6.1.1",
+    "sequelize": "^4.44.4",
+    "sequelize-cli": "^5.5.1",
+    "sorted-json-stringify": "^0.1.1",
+    "sqldown": "^2.1.0",
+    "sqlite3": "^5.0.0",
+    "uuid": "^8.3.0"
+  }
+}
