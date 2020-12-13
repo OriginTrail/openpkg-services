@@ -2,12 +2,12 @@ const NodeRestClient = require('../../utilities/node-rest-client');
 
 process.on('message', async (dataFromParent) => {
     const {
-        pipeline_instance_id
+        array, pipeline_instance_id
     } = JSON.parse(dataFromParent);
 
     try {
         const client = new NodeRestClient('');
-        const response = client.stagingDataPublishRequest();
+        const response = client.didAuthenticateRequest(body);
         process.send(JSON.stringify({
             pipeline_instance_id,
             body: { response },
