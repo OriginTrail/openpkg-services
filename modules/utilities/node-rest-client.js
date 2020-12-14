@@ -2,14 +2,8 @@ const axios = require('axios');
 const fs = require('fs');
 require('dotenv').config();
 
-const timeoutSeconds = 30;
-
 class NodeRestClient {
     constructor(node) {
-        this.node = null;
-    }
-
-    setNode(node) {
         this.node = node;
     }
 
@@ -19,7 +13,7 @@ class NodeRestClient {
             array
         );
 
-        return response;
+        return response.data;
     }
 
     async stagingDataRemoveRequest(array) {
@@ -39,13 +33,13 @@ class NodeRestClient {
         return response;
     }
 
-    async didResolveRequest(body) {
+    async didResolveRequest(didUrl) {
         const response = await axios.post(
             `${this.node}/api/latest/did/resolve`,
-            body
+            {didUrl}
         );
 
-        return response;
+        return response.data;
     }
 
     async didAuthenticateRequest(body) {

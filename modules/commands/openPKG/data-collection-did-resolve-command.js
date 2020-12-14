@@ -1,7 +1,7 @@
 const PipelineCommand = require('../pipeline-command');
 const { fork } = require('child_process');
 
-class StagingDataCreateCommand extends PipelineCommand {
+class DataCollectionDidResolveCommand extends PipelineCommand {
     constructor(ctx) {
         super(ctx);
         this.logger = ctx.logger;
@@ -13,7 +13,7 @@ class StagingDataCreateCommand extends PipelineCommand {
      * @param command
      */
     async executeTask(command) {
-        const forked = fork('modules/pipelines/openPKG/staging-data-create-worker.js');
+        const forked = fork('modules/pipelines/openPKG/did-resolve-worker.js');
 
         forked.send(JSON.stringify(command.data));
 
@@ -37,7 +37,7 @@ class StagingDataCreateCommand extends PipelineCommand {
      */
     default(map) {
         const command = {
-            name: 'stagingDataCreateCommand',
+            name: 'dataCollectionDidResolveCommand',
             delay: 0,
             transactional: false,
         };
@@ -46,4 +46,4 @@ class StagingDataCreateCommand extends PipelineCommand {
     }
 }
 
-module.exports = StagingDataCreateCommand;
+module.exports = DataCollectionDidResolveCommand;

@@ -5,12 +5,16 @@ process.on('message', async (dataFromParent) => {
         body, pipeline_instance_id
     } = JSON.parse(dataFromParent);
 
+    const {otObject} = body;
+
     try {
-        const client = new NodeRestClient('');
-        const response = client.didResolveRequest(body);
+        const client = new NodeRestClient('http://127.0.0.1:8900');
+        const response = await client.didResolveRequest(otObject['@id']);
+        if (response.status==='FAILED')
+            throw new Error('Invalid DID identifier');
         process.send(JSON.stringify({
             pipeline_instance_id,
-            body: { response },
+            body,
             files: [],
         }), () => {
             process.exit(0);
