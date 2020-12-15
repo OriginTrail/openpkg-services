@@ -1,7 +1,7 @@
 const PipelineCommand = require('../pipeline-command');
 const { fork } = require('child_process');
 
-class DataCollectionDidResolveCommand extends PipelineCommand {
+class DataRequestDidAuthenticateCommand extends PipelineCommand {
     constructor(ctx) {
         super(ctx);
         this.logger = ctx.logger;
@@ -13,8 +13,8 @@ class DataCollectionDidResolveCommand extends PipelineCommand {
      * @param command
      */
     async executeTask(command) {
-        const forked = fork('modules/pipelines/openPKG/did-resolve-worker.js');
-        command.data.body.didUrl = command.data.body.otObject['@id'];
+        const forked = fork('modules/pipelines/openPKG/did-authenticate-worker.js');
+        command.data.body.message = command.data.body.publicKey;
         forked.send(JSON.stringify(command.data));
 
         forked.on('message', async (response) => {
@@ -37,7 +37,7 @@ class DataCollectionDidResolveCommand extends PipelineCommand {
      */
     default(map) {
         const command = {
-            name: 'dataCollectionDidResolveCommand',
+            name: 'dataRequestDidAuthenticateCommand',
             delay: 0,
             transactional: false,
         };
@@ -46,4 +46,4 @@ class DataCollectionDidResolveCommand extends PipelineCommand {
     }
 }
 
-module.exports = DataCollectionDidResolveCommand;
+module.exports = DataRequestDidAuthenticateCommand;

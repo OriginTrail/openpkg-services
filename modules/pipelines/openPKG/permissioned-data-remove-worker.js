@@ -5,14 +5,16 @@ process.on('message', async (dataFromParent) => {
         body, pipeline_instance_id
     } = JSON.parse(dataFromParent);
 
+    const { query } = body;
+
     try {
         const client = new NodeRestClient('http://127.0.0.1:8900');
-        const response = await client.didAuthenticateRequest(body);
-        // if (response.authenticated)
-        //     throw new Error('User is not authenticated!');
+        const response = await client.permissionedDataRemoveRequest(query);
+        if (response.status === 'FAILED')
+            throw new Error('Remove permissioned data is not successful');
         process.send(JSON.stringify({
             pipeline_instance_id,
-            body,
+            body: { response },
             files: [],
         }), () => {
             process.exit(0);

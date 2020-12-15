@@ -22,7 +22,7 @@ class NodeRestClient {
             array
         );
 
-        return response;
+        return response.data;
     }
 
     async stagingDataPublishRequest() {
@@ -30,7 +30,7 @@ class NodeRestClient {
             `${this.node}/api/latest/staging_data/publish`
         );
 
-        return response;
+        return response.data;
     }
 
     async didResolveRequest(didUrl) {
@@ -48,8 +48,52 @@ class NodeRestClient {
             body
         );
 
-        return response;
+        return response.data;
     }
+
+    async replicationRequest(dataset_id, standard_id) {
+        const response = await axios.post(
+            `${this.node}/api/latest/replicate`,
+            { dataset_id, standard_id }
+        );
+
+        return response.data;
+    }
+
+    async importStatus(handler_id) {
+        const response = await axios.get(
+            `${this.node}/api/latest/import/result/${handler_id}`
+        );
+
+        return response.data;
+    }
+
+    async replicationStatus(handler_id) {
+        const response = await axios.get(
+            `${this.node}/api/latest/replication/result/${handler_id}`
+        );
+
+        return response.data;
+    }
+
+    async trailRequest(query) {
+        const response = await axios.post(
+            `${this.node}/api/latest/trail`,
+            query
+        );
+
+        return response.data;
+    }
+
+    async permissionedDataRemoveRequest(query) {
+        const response = await axios.post(
+            `${this.node}/api/latest/permissioned_data/remove`,
+            query
+        );
+
+        return response.data;
+    }
+
 }
 
 module.exports = NodeRestClient;

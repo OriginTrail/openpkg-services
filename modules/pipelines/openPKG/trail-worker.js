@@ -1,18 +1,20 @@
 const NodeRestClient = require('../../utilities/node-rest-client');
+const sleep = require('sleep');
 
 process.on('message', async (dataFromParent) => {
     const {
-        body, pipeline_instance_id
+        body,
+        pipeline_instance_id
     } = JSON.parse(dataFromParent);
+
+    const { query } = body;
 
     try {
         const client = new NodeRestClient('http://127.0.0.1:8900');
-        const response = await client.didAuthenticateRequest(body);
-        // if (response.authenticated)
-        //     throw new Error('User is not authenticated!');
+        const response = await client.trailRequest(query);
         process.send(JSON.stringify({
             pipeline_instance_id,
-            body,
+            body: { response },
             files: [],
         }), () => {
             process.exit(0);

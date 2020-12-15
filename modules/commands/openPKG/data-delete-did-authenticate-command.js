@@ -1,7 +1,7 @@
 const PipelineCommand = require('../pipeline-command');
 const { fork } = require('child_process');
 
-class StagingDataPublishCommand extends PipelineCommand {
+class DataDeleteDidAuthenticateCommand extends PipelineCommand {
     constructor(ctx) {
         super(ctx);
         this.logger = ctx.logger;
@@ -13,8 +13,8 @@ class StagingDataPublishCommand extends PipelineCommand {
      * @param command
      */
     async executeTask(command) {
-        const forked = fork('modules/pipelines/openPKG/staging-data-publish-worker.js');
-
+        const forked = fork('modules/pipelines/openPKG/did-authenticate-worker.js');
+        command.data.body.message = command.data.body.publicKey;
         forked.send(JSON.stringify(command.data));
 
         forked.on('message', async (response) => {
@@ -31,13 +31,13 @@ class StagingDataPublishCommand extends PipelineCommand {
 
 
     /**
-     * Builds default StagingDataRemoveCommand
+     * Builds default StagingDataCreateCommand
      * @param map
      * @returns {{add, data: *, delay: *, deadline: *}}
      */
     default(map) {
         const command = {
-            name: 'stagingDataPublishCommand',
+            name: 'dataDeleteDidAuthenticateCommand',
             delay: 0,
             transactional: false,
         };
@@ -46,4 +46,4 @@ class StagingDataPublishCommand extends PipelineCommand {
     }
 }
 
-module.exports = StagingDataPublishCommand;
+module.exports = DataDeleteDidAuthenticateCommand;

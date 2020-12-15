@@ -42,6 +42,7 @@
     "restify-errors": "^6.1.1",
     "sequelize": "^4.44.4",
     "sequelize-cli": "^5.5.1",
+    "sleep": "^6.3.0",
     "sorted-json-stringify": "^0.1.1",
     "sqldown": "^2.1.0",
     "sqlite3": "^5.0.0",

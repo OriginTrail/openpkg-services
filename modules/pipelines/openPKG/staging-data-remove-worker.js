@@ -2,12 +2,14 @@ const NodeRestClient = require('../../utilities/node-rest-client');
 
 process.on('message', async (dataFromParent) => {
     const {
-        array, pipeline_instance_id
+        body, pipeline_instance_id
     } = JSON.parse(dataFromParent);
 
+    const { query } = body;
+
     try {
-        const client = new NodeRestClient('');
-        const response = client.stagingDataRemoveRequest(array);
+        const client = new NodeRestClient('http://127.0.0.1:8900');
+        const response = await client.stagingDataRemoveRequest(query);
         process.send(JSON.stringify({
             pipeline_instance_id,
             body: { response },

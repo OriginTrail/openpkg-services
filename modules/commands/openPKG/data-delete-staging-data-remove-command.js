@@ -1,7 +1,7 @@
 const PipelineCommand = require('../pipeline-command');
 const { fork } = require('child_process');
 
-class StagingDataRemoveCommand extends PipelineCommand {
+class DataDeleteStagingDataRemoveCommand extends PipelineCommand {
     constructor(ctx) {
         super(ctx);
         this.logger = ctx.logger;
@@ -31,13 +31,13 @@ class StagingDataRemoveCommand extends PipelineCommand {
 
 
     /**
-     * Builds default StagingDataRemoveCommand
+     * Builds default DataDeleteStagingDataRemoveCommand
      * @param map
      * @returns {{add, data: *, delay: *, deadline: *}}
      */
     default(map) {
         const command = {
-            name: 'stagingDataRemoveCommand',
+            name: 'dataDeleteStagingDataRemoveCommand',
             delay: 0,
             transactional: false,
         };
@@ -46,4 +46,4 @@ class StagingDataRemoveCommand extends PipelineCommand {
     }
 }
 
-module.exports = StagingDataRemoveCommand;
+module.exports = DataDeleteStagingDataRemoveCommand;

@@ -14,7 +14,7 @@ process.on('message', async (dataFromParent) => {
             throw new Error('Failed to save otObject in staging data store');
         process.send(JSON.stringify({
             pipeline_instance_id,
-            body: { response },
+            body: { status: response.status },
             files: [],
         }), () => {
             process.exit(0);

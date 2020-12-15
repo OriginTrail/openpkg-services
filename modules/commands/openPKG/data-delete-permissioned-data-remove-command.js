@@ -1,7 +1,7 @@
 const PipelineCommand = require('../pipeline-command');
 const { fork } = require('child_process');
 
-class DataCollectionDidResolveCommand extends PipelineCommand {
+class DataDeletePermissionedDataRemoveCommand extends PipelineCommand {
     constructor(ctx) {
         super(ctx);
         this.logger = ctx.logger;
@@ -13,12 +13,19 @@ class DataCollectionDidResolveCommand extends PipelineCommand {
      * @param command
      */
     async executeTask(command) {
-        const forked = fork('modules/pipelines/openPKG/did-resolve-worker.js');
-        command.data.body.didUrl = command.data.body.otObject['@id'];
+        const forked = fork('modules/pipelines/openPKG/permissioned-data-remove-worker.js');
+        command.data.body.query = {
+            identifier_value: command.data.body.response.map(x => x.otObject['@id'])[0],
+            identifier_type: 'id',
+            dataset_id: command.data.body.response.map(x => x.datasets[0])[0]
+        }
         forked.send(JSON.stringify(command.data));
 
         forked.on('message', async (response) => {
-            const { data, status, message } = this.unpackForkData(response);
+            const objects = this.unpackForkData(response);
+            let { data } = objects;
+            data.body.query = command.data.body.response.map(x => x.otObject['@id']);
+            const { status, message } = objects;
             await PipelineCommand.prototype.afterTaskExecution.call(
                 this,
                 command,
@@ -31,13 +38,13 @@ class DataCollectionDidResolveCommand extends PipelineCommand {
 
 
     /**
-     * Builds default StagingDataCreateCommand
+     * Builds default DataDeleteStagingDataRemoveCommand
      * @param map
      * @returns {{add, data: *, delay: *, deadline: *}}
      */
     default(map) {
         const command = {
-            name: 'dataCollectionDidResolveCommand',
+            name: 'dataDeletePermissionedDataRemoveCommand',
             delay: 0,
             transactional: false,
         };
@@ -46,4 +53,4 @@ class DataCollectionDidResolveCommand extends PipelineCommand {
     }
 }
 
-module.exports = DataCollectionDidResolveCommand;
+module.exports = DataDeletePermissionedDataRemoveCommand;
