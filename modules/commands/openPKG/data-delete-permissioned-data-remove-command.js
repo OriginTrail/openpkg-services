@@ -5,6 +5,7 @@ class DataDeletePermissionedDataRemoveCommand extends PipelineCommand {
     constructor(ctx) {
         super(ctx);
         this.logger = ctx.logger;
+        this.config = ctx.config;
         this.commandExecutor = ctx.commandExecutor;
     }
 
@@ -14,17 +15,13 @@ class DataDeletePermissionedDataRemoveCommand extends PipelineCommand {
      */
     async executeTask(command) {
         const forked = fork('modules/pipelines/openPKG/permissioned-data-remove-worker.js');
-        command.data.body.query = {
-            identifier_value: command.data.body.response.map(x => x.otObject['@id'])[0],
-            identifier_type: 'id',
-            dataset_id: command.data.body.response.map(x => x.datasets[0])[0]
-        }
+        command.data.body.node_ip = this.config.node_ip;
         forked.send(JSON.stringify(command.data));
 
         forked.on('message', async (response) => {
             const objects = this.unpackForkData(response);
             let { data } = objects;
-            data.body.query = command.data.body.response.map(x => x.otObject['@id']);
+            data.body = command.data.body;
             const { status, message } = objects;
             await PipelineCommand.prototype.afterTaskExecution.call(
                 this,

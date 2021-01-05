@@ -5,10 +5,10 @@ process.on('message', async (dataFromParent) => {
         body, pipeline_instance_id
     } = JSON.parse(dataFromParent);
 
-    const {otObject} = body;
-
     try {
-        const client = new NodeRestClient('http://127.0.0.1:8900');
+        const {otObject, node_ip} = body;
+
+        const client = new NodeRestClient(node_ip);
         const response = await client.stagingDataCreateRequest([otObject]);
         if (response.status==='FAILED')
             throw new Error('Failed to save otObject in staging data store');

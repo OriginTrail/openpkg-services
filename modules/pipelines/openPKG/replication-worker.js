@@ -7,10 +7,10 @@ process.on('message', async (dataFromParent) => {
         pipeline_instance_id
     } = JSON.parse(dataFromParent);
 
-    const { dataset_id } = body;
-
     try {
-        const client = new NodeRestClient('http://127.0.0.1:8900');
+        const { dataset_id, node_ip } = body;
+
+        const client = new NodeRestClient(node_ip);
         const response = await client.replicationRequest(dataset_id, 'graph');
         let status, result;
         do {

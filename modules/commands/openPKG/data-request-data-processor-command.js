@@ -2,7 +2,7 @@ const NodeRestClient = require('../../utilities/node-rest-client');
 const PipelineCommand = require('../pipeline-command');
 const { fork } = require('child_process');
 
-class DataDeleteStagingDataRemoveCommand extends PipelineCommand {
+class DataRequestDataProcessorCommand extends PipelineCommand {
     constructor(ctx) {
         super(ctx);
         this.logger = ctx.logger;
@@ -18,7 +18,6 @@ class DataDeleteStagingDataRemoveCommand extends PipelineCommand {
         const {
             body, pipeline_instance_id
         } = command.data;
-        const forked = fork('modules/pipelines/openPKG/staging-data-remove-worker.js');
 
         const client = new NodeRestClient(this.config.node_ip);
         let stagingObjects = await client.stagingDataGetRequest();
@@ -26,34 +25,25 @@ class DataDeleteStagingDataRemoveCommand extends PipelineCommand {
             x.identifiers.map(y=>y['@value']).includes(body.didUrl) &&
             x.identifiers.map(y=>y['@value']).includes(body.entity));
 
-        command.data.body.response = stagingObjects.map(x=>x['@id']);
-        command.data.body.node_ip = this.config.node_ip;
-        forked.send(JSON.stringify(command.data));
+        body.response = body.response.map(x=>x.otObject.properties.permissioned_data.data);
+        body.response = body.response.concat(stagingObjects.map(x=>x.properties.permissioned_data.data));
 
-        forked.on('message', async (response) => {
-            const objects = this.unpackForkData(response);
-            let { data } = objects;
-            data.body = command.data.body;
-            const { status, message } = objects;
-            await PipelineCommand.prototype.afterTaskExecution.call(
-                this,
-                command,
-                data, status,
-                message,
-            );
-            forked.kill();
-        });
+        return {
+            pipeline_instance_id,
+            body,
+            files: [],
+        };
     }
 
 
     /**
-     * Builds default DataDeleteStagingDataRemoveCommand
+     * Builds default StagingDataCreateCommand
      * @param map
      * @returns {{add, data: *, delay: *, deadline: *}}
      */
     default(map) {
         const command = {
-            name: 'dataDeleteStagingDataRemoveCommand',
+            name: 'dataRequestDataProcessorCommand',
             delay: 0,
             transactional: false,
         };
@@ -62,4 +52,4 @@ class DataDeleteStagingDataRemoveCommand extends PipelineCommand {
     }
 }
 
-module.exports = DataDeleteStagingDataRemoveCommand;
+module.exports = DataRequestDataProcessorCommand;

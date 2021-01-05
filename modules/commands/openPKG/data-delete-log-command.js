@@ -1,7 +1,7 @@
 const PipelineCommand = require('../pipeline-command');
 const { fork } = require('child_process');
 
-class DataCollectionPrepareCommand extends PipelineCommand {
+class DataDeleteLogCommand extends PipelineCommand {
     constructor(ctx) {
         super(ctx);
         this.logger = ctx.logger;
@@ -18,8 +18,9 @@ class DataCollectionPrepareCommand extends PipelineCommand {
             body, pipeline_instance_id
         } = command.data;
 
-        const { activityObject, entity,timestamp, publicKey } = body;
-        body.otObject = {
+        const { entity, publicKey } = body;
+        const timestamp = Date.now();
+        command.data.body.otObject = {
                 "@id":`did:ethr:development:${publicKey}#${entity}#${timestamp}`,
                 "@type":"otObject",
                 "identifiers":[
@@ -38,12 +39,23 @@ class DataCollectionPrepareCommand extends PipelineCommand {
                     {
                         "@type":"id",
                         "@value": `did:ethr:development:${publicKey}#${entity}#${timestamp}`
-                    }
+                    },
                 ],
                 "properties":{
                     "permissioned_data": {
                         "data": {
-                            activityObject
+                            "@context": [
+                                "https://w3id.org/credentials/v1"
+                            ],
+                            "claim": {
+                                "request":{message: body.message,entity: body.entity,publicKey: body.publicKey, timestamp: body.timestamp,},
+                            },
+                            "expires": "2099-01-01",
+                            "id": `did:ethr:development:${publicKey}#${timestamp}`,
+                            "issuer": `did:ethr:development:${publicKey}`,
+                            "type": [
+                                "VerifiableCredential"
+                            ]
                         }
                     }
                 },
@@ -52,11 +64,21 @@ class DataCollectionPrepareCommand extends PipelineCommand {
                 ]
             };
 
-        return {
-            pipeline_instance_id,
-            body,
-            files: [],
-        };
+        const forked = fork('modules/pipelines/openPKG/staging-data-create-worker.js');
+
+        command.data.body.node_ip = this.config.node_ip;
+        forked.send(JSON.stringify(command.data));
+
+        forked.on('message', async (response) => {
+            const { data, status, message } = this.unpackForkData(response);
+            await PipelineCommand.prototype.afterTaskExecution.call(
+                this,
+                command,
+                data, status,
+                message,
+            );
+            forked.kill();
+        });
     }
 
 
@@ -67,7 +89,7 @@ class DataCollectionPrepareCommand extends PipelineCommand {
      */
     default(map) {
         const command = {
-            name: 'dataCollectionPrepareCommand',
+            name: 'dataDeleteLogCommand',
             delay: 0,
             transactional: false,
         };
@@ -76,4 +98,4 @@ class DataCollectionPrepareCommand extends PipelineCommand {
     }
 }
 
-module.exports = DataCollectionPrepareCommand;
+module.exports = DataDeleteLogCommand;

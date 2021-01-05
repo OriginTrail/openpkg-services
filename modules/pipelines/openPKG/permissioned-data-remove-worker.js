@@ -5,11 +5,19 @@ process.on('message', async (dataFromParent) => {
         body, pipeline_instance_id
     } = JSON.parse(dataFromParent);
 
-    const { query } = body;
-
     try {
-        const client = new NodeRestClient('http://127.0.0.1:8900');
-        const response = await client.permissionedDataRemoveRequest(query);
+        const { response, node_ip } = body;
+        const client = new NodeRestClient(node_ip);
+
+        for (const object of response) {
+
+            const query = {
+                identifier_value: object.otObject['@id'],
+                identifier_type: 'id',
+                dataset_id:  object.datasets[0]
+            };
+            const response = await client.permissionedDataRemoveRequest(query);
+        }
         if (response.status === 'FAILED')
             throw new Error('Remove permissioned data is not successful');
         process.send(JSON.stringify({

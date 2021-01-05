@@ -3,7 +3,9 @@
     "node_rpc_ip": "127.0.0.1",
     "node_rpc_port": 3100,
     "latest_api_version" : "v1.0",
-    "remoteWhitelist": [
+    "verbose_logging": false,
+    "node_ip": "http://127.0.0.1:8900",
+    "remote_whitelist": [
       "127.0.0.1",
       "178.148.85.7",
       "198.211.125.230",
@@ -14,7 +16,9 @@
     "node_rpc_ip": "127.0.0.1",
     "node_rpc_port": 3100,
     "latest_api_version" : "v1.0",
-    "remoteWhitelist": [
+    "verbose_logging": true,
+    "node_ip": "http://127.0.0.1:8900",
+    "remote_whitelist": [
       "127.0.0.1",
       "178.148.85.7",
       "198.211.125.230",
@@ -25,7 +29,9 @@
     "node_rpc_ip": "127.0.0.1",
     "node_rpc_port": 3100,
     "latest_api_version" : "v1.0",
-    "remoteWhitelist": [
+    "verbose_logging": true,
+    "node_ip": "http://127.0.0.1:8900",
+    "remote_whitelist": [
       "127.0.0.1",
       "178.148.85.7",
       "198.211.125.230",

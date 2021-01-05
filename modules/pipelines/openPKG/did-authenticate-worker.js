@@ -6,7 +6,7 @@ process.on('message', async (dataFromParent) => {
     } = JSON.parse(dataFromParent);
 
     try {
-        const client = new NodeRestClient('http://127.0.0.1:8900');
+        const client = new NodeRestClient(body.node_ip);
         const response = await client.didAuthenticateRequest(body);
         // if (response.authenticated)
         //     throw new Error('User is not authenticated!');

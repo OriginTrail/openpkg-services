@@ -5,6 +5,7 @@ class DataCollectionStagingDataCreateCommand extends PipelineCommand {
     constructor(ctx) {
         super(ctx);
         this.logger = ctx.logger;
+        this.config = ctx.config;
         this.commandExecutor = ctx.commandExecutor;
     }
 
@@ -15,10 +16,14 @@ class DataCollectionStagingDataCreateCommand extends PipelineCommand {
     async executeTask(command) {
         const forked = fork('modules/pipelines/openPKG/staging-data-create-worker.js');
 
+        command.data.body.node_ip = this.config.node_ip;
         forked.send(JSON.stringify(command.data));
 
         forked.on('message', async (response) => {
-            const { data, status, message } = this.unpackForkData(response);
+            const objects = this.unpackForkData(response);
+            let { data } = objects;
+            data.body = command.data.body;
+            const { status, message } = objects;
             await PipelineCommand.prototype.afterTaskExecution.call(
                 this,
                 command,

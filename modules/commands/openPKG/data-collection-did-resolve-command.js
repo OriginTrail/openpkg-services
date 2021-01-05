@@ -5,6 +5,7 @@ class DataCollectionDidResolveCommand extends PipelineCommand {
     constructor(ctx) {
         super(ctx);
         this.logger = ctx.logger;
+        this.config = ctx.config;
         this.commandExecutor = ctx.commandExecutor;
     }
 
@@ -14,7 +15,8 @@ class DataCollectionDidResolveCommand extends PipelineCommand {
      */
     async executeTask(command) {
         const forked = fork('modules/pipelines/openPKG/did-resolve-worker.js');
-        command.data.body.didUrl = command.data.body.otObject['@id'];
+        command.data.body.didUrl = command.data.body.otObject.identifiers.find(x=>x['@value'].startsWith('did:ethr'))['@value'];
+        command.data.body.node_ip = this.config.node_ip;
         forked.send(JSON.stringify(command.data));
 
         forked.on('message', async (response) => {

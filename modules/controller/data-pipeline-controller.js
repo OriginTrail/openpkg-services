@@ -94,6 +94,13 @@ class DataPipelineController {
                 req.params.pipeline_id,
                 req.user,
             );
+
+            if (!this.config.verbose_logging){
+                delete pipeline.jobs;
+                delete pipeline.created_by;
+                delete pipeline.pipeline_instances;
+            }
+
             res.status(200);
             res.send({
                 data: { pipeline },
@@ -123,6 +130,12 @@ class DataPipelineController {
                 req.params.pipeline_instance_id,
                 req.user,
             );
+
+            if (!this.config.verbose_logging){
+                delete pipeline.job_instances;
+                delete pipeline.created_at;
+                delete pipeline.modified_at;
+            }
 
             pipeline.pipeline_instance_result = JSON.parse(pipeline.pipeline_instance_result);
             if (pipeline.pipeline_instance_result) {

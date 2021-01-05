@@ -7,6 +7,14 @@ class NodeRestClient {
         this.node = node;
     }
 
+    async stagingDataGetRequest() {
+        const response = await axios.get(
+            `${this.node}/api/latest/staging_data/get`
+        );
+
+        return response.data;
+    }
+
     async stagingDataCreateRequest(array) {
         const response = await axios.post(
             `${this.node}/api/latest/staging_data/create`,
@@ -76,10 +84,27 @@ class NodeRestClient {
         return response.data;
     }
 
-    async trailRequest(query) {
+    async trailLookupRequest(query) {
         const response = await axios.post(
-            `${this.node}/api/latest/trail`,
+            `${this.node}/api/latest/trail/lookup`,
             query
+        );
+
+        return response.data;
+    }
+
+    async trailFindRequest(query) {
+        const response = await axios.post(
+            `${this.node}/api/latest/trail/find`,
+            query
+        );
+
+        return response.data;
+    }
+
+    async trailFindRequestResult(handler_id) {
+        const response = await axios.get(
+            `${this.node}/api/latest/trail/find/result/${handler_id}`
         );
 
         return response.data;

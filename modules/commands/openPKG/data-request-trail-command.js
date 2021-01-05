@@ -5,6 +5,7 @@ class DataRequestTrailCommand extends PipelineCommand {
     constructor(ctx) {
         super(ctx);
         this.logger = ctx.logger;
+        this.config = ctx.config;
         this.commandExecutor = ctx.commandExecutor;
     }
 
@@ -15,14 +16,18 @@ class DataRequestTrailCommand extends PipelineCommand {
     async executeTask(command) {
         const forked = fork('modules/pipelines/openPKG/trail-worker.js');
         command.data.body.query ={
-            "identifier_types": ['id'],
-            "identifier_values": [command.data.body.didUrl],
-            "depth": 10,
+            "identifier_types": ['id', 'id'],
+            "identifier_values": [command.data.body.didUrl, command.data.body.entity],
+            "opcode": "EQ",
         };
+        command.data.body.node_ip = this.config.node_ip;
         forked.send(JSON.stringify(command.data));
 
         forked.on('message', async (response) => {
-            const { data, status, message } = this.unpackForkData(response);
+            const objects = this.unpackForkData(response);
+            let { data } = objects;
+            data.body = {...command.data.body, ...data.body};
+            const { status, message } = objects;
             await PipelineCommand.prototype.afterTaskExecution.call(
                 this,
                 command,

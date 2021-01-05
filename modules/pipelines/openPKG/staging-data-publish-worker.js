@@ -3,11 +3,11 @@ const sleep = require('sleep');
 
 process.on('message', async (dataFromParent) => {
     const {
-        pipeline_instance_id
+        pipeline_instance_id, body
     } = JSON.parse(dataFromParent);
 
     try {
-        const client = new NodeRestClient('http://127.0.0.1:8900');
+        const client = new NodeRestClient(body.node_ip);
         const response = await client.stagingDataPublishRequest();
         let status, result;
         do {

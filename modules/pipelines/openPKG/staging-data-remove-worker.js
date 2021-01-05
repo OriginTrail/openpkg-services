@@ -5,11 +5,12 @@ process.on('message', async (dataFromParent) => {
         body, pipeline_instance_id
     } = JSON.parse(dataFromParent);
 
-    const { query } = body;
-
     try {
-        const client = new NodeRestClient('http://127.0.0.1:8900');
-        const response = await client.stagingDataRemoveRequest(query);
+        const { response, node_ip } = body;
+        const client = new NodeRestClient(node_ip);
+        const { status } = await client.stagingDataRemoveRequest(response);
+        if (status === 'FAILED')
+            throw new Error(result.data.error);
         process.send(JSON.stringify({
             pipeline_instance_id,
             body: { response },

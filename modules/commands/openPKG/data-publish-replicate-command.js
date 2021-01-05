@@ -5,6 +5,7 @@ class DataPublishReplicateCommand extends PipelineCommand {
     constructor(ctx) {
         super(ctx);
         this.logger = ctx.logger;
+        this.config = ctx.config;
         this.commandExecutor = ctx.commandExecutor;
     }
 
@@ -15,6 +16,7 @@ class DataPublishReplicateCommand extends PipelineCommand {
     async executeTask(command) {
         const forked = fork('modules/pipelines/openPKG/replication-worker.js');
 
+        command.data.body.node_ip = this.config.node_ip;
         forked.send(JSON.stringify(command.data));
 
         forked.on('message', async (response) => {

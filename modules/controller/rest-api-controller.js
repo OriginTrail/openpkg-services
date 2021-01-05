@@ -92,7 +92,7 @@ class RestApiController {
         server.use(cors.actual);
         server.use((request, response, next) => {
             const request_ip = request.headers['x-forwarded-for'] || request.connection.remoteAddress;
-            if (AuthUtilities.validateIPAddress(request_ip, this.config.remoteWhitelist)) {
+            if (AuthUtilities.validateIPAddress(request_ip, this.config.remote_whitelist)) {
                 return next();
             }
             response.status(403);
