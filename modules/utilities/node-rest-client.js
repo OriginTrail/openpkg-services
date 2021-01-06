@@ -78,7 +78,7 @@ class NodeRestClient {
 
     async replicationStatus(handler_id) {
         const response = await axios.get(
-            `${this.node}/api/latest/replication/result/${handler_id}`
+            `${this.node}/api/latest/replicate/result/${handler_id}`
         );
 
         return response.data;

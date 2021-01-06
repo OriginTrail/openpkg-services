@@ -18,11 +18,9 @@ process.on('message', async (dataFromParent) => {
             result = await client.replicationStatus(response.handler_id);
             status = result.status;
         }while (!['FAILED', 'COMPLETED'].includes(status));
-        if (status === 'FAILED')
-            throw new Error(result.data.error);
         process.send(JSON.stringify({
             pipeline_instance_id,
-            body: { replication_data: result.data },
+            body: result,
             files: [],
         }), () => {
             process.exit(0);

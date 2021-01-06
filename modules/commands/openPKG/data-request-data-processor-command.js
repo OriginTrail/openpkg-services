@@ -25,8 +25,8 @@ class DataRequestDataProcessorCommand extends PipelineCommand {
             x.identifiers.map(y=>y['@value']).includes(body.didUrl) &&
             x.identifiers.map(y=>y['@value']).includes(body.entity));
 
-        body.response = body.response.map(x=>x.otObject.properties.permissioned_data.data);
-        body.response = body.response.concat(stagingObjects.map(x=>x.properties.permissioned_data.data));
+        body.response = body.response.map(x=>x.otObject.properties.permissioned_data.data).filter(x=>x != null);
+        body.response = body.response.concat(stagingObjects.map(x=>x.properties.permissioned_data.data).filter(y=>y != null));
 
         return {
             pipeline_instance_id,

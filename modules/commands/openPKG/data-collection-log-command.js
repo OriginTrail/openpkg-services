@@ -18,7 +18,8 @@ class DataCollectionLogCommand extends PipelineCommand {
             body, pipeline_instance_id
         } = command.data;
 
-        const { entity, timestamp, publicKey } = body;
+        const { entity, publicKey } = body;
+        const timestamp = Date.now().toString();
         command.data.body.otObject = {
                 "@id":`did:ethr:development:${publicKey}#${entity}#${timestamp}`,
                 "@type":"otObject",
