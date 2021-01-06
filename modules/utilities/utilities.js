@@ -8,6 +8,12 @@ class Utilities {
     writeFile(path, content) {
         fs.writeFileSync(path, content);
     }
+
+    static async sleepForMilliseconds(timeout) {
+        await new Promise((resolve, reject) => {
+            setTimeout(() => resolve(), timeout);
+        });
+    }
 }
 
 module.exports = Utilities;

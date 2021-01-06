@@ -1,5 +1,5 @@
 const NodeRestClient = require('../../utilities/node-rest-client');
-const sleep = require('sleep');
+const Utilities = require('../../utilities/utilities');
 
 process.on('message', async (dataFromParent) => {
     const {
@@ -21,7 +21,7 @@ process.on('message', async (dataFromParent) => {
         const { handler_id } = await client.trailFindRequest(subQuery);
         let status, response;
         do {
-            sleep.sleep(1);
+            await Utilities.sleepForMilliseconds(1000);
             response = await client.trailFindRequestResult(handler_id);
             status = response.status;
         }while (!['FAILED', 'COMPLETED'].includes(status));

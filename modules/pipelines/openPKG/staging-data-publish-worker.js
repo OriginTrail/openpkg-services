@@ -1,5 +1,5 @@
 const NodeRestClient = require('../../utilities/node-rest-client');
-const sleep = require('sleep');
+const Utilities = require('../../utilities/utilities');
 
 process.on('message', async (dataFromParent) => {
     const {
@@ -11,7 +11,7 @@ process.on('message', async (dataFromParent) => {
         const response = await client.stagingDataPublishRequest();
         let status, result;
         do {
-            sleep.sleep(2);
+            await Utilities.sleepForMilliseconds(2000);
             result = await client.importStatus(response.handler_id);
             status = result.status;
         }while (!['FAILED', 'COMPLETED'].includes(status));

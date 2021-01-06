@@ -1,5 +1,5 @@
 const NodeRestClient = require('../../utilities/node-rest-client');
-const sleep = require('sleep');
+const Utilities = require('../../utilities/utilities');
 
 process.on('message', async (dataFromParent) => {
     const {
@@ -14,7 +14,8 @@ process.on('message', async (dataFromParent) => {
         const response = await client.replicationRequest(dataset_id, 'graph');
         let status, result;
         do {
-            sleep.sleep(10);
+            await Utilities.sleepForMilliseconds(10000);
+
             result = await client.replicationStatus(response.handler_id);
             status = result.status;
         }while (!['FAILED', 'COMPLETED'].includes(status));
