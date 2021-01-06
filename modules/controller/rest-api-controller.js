@@ -84,7 +84,7 @@ class RestApiController {
         const cors = corsMiddleware({
             preflightMaxAge: 5, // Optional
             origins: ['*'],
-            allowHeaders: ['API-Token', 'prettify-json', 'raw-data'],
+            allowHeaders: ['API-Token', 'prettify-json', 'raw-data', 'Authorization'],
             exposeHeaders: ['API-Token-Expiry'],
         });
 
