@@ -91,14 +91,14 @@ class RestApiController {
         server.pre(cors.preflight);
         server.use(cors.actual);
         server.use((request, response, next) => {
-            const request_ip = request.headers['x-forwarded-for'] || request.connection.remoteAddress;
-            if (AuthUtilities.validateIPAddress(request_ip, this.config.remote_whitelist)) {
+            // const request_ip = request.headers['x-forwarded-for'] || request.connection.remoteAddress;
+            // if (AuthUtilities.validateIPAddress(request_ip, this.config.remote_whitelist)) {
                 return next();
-            }
-            response.status(403);
-            response.send({
-                message: 'Forbidden request',
-            });
+            // }
+            // response.status(403);
+            // response.send({
+            //     message: 'Forbidden request',
+            // });
         });
 
         passport.use(new Strategy(async (token, done) => {

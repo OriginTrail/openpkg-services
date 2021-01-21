@@ -110,6 +110,15 @@ class NodeRestClient {
         return response.data;
     }
 
+    async trailProofsRequest(query) {
+        const response = await axios.post(
+            `${this.node}/api/latest/get_merkle_proofs`,
+            query
+        );
+
+        return response.data;
+    }
+
     async permissionedDataRemoveRequest(query) {
         const response = await axios.post(
             `${this.node}/api/latest/permissioned_data/remove`,

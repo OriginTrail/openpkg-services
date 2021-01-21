@@ -21,12 +21,12 @@ class DataRequestLogCommand extends PipelineCommand {
         const { entity, publicKey } = body;
         const timestamp = Date.now();
         command.data.body.otObject = {
-                "@id":`did:ethr:development:${publicKey}#${entity}#${timestamp}`,
+                "@id":`did:ethr:${publicKey}#${entity}#${timestamp}`,
                 "@type":"otObject",
                 "identifiers":[
                     {
                         "@type":"id",
-                        "@value":`did:ethr:development:${publicKey}`
+                        "@value":`did:ethr:${publicKey}`
                     },
                     {
                         "@type":"id",
@@ -38,7 +38,7 @@ class DataRequestLogCommand extends PipelineCommand {
                     },
                     {
                         "@type":"id",
-                        "@value": `did:ethr:development:${publicKey}#${entity}#${timestamp}`
+                        "@value": `did:ethr:${publicKey}#${entity}#${timestamp}`
                     },
                 ],
                 "properties":{
@@ -51,8 +51,8 @@ class DataRequestLogCommand extends PipelineCommand {
                                 "request":{message: body.message,entity: body.entity,publicKey: body.publicKey, timestamp: body.timestamp,},
                             },
                             "expires": "2099-01-01",
-                            "id": `did:ethr:development:${publicKey}#${timestamp}`,
-                            "issuer": `did:ethr:development:${publicKey}`,
+                            "id": `did:ethr:${publicKey}#${timestamp}`,
+                            "issuer": `did:ethr:${publicKey}`,
                             "type": [
                                 "VerifiableCredential"
                             ]
@@ -72,7 +72,7 @@ class DataRequestLogCommand extends PipelineCommand {
         forked.on('message', async (response) => {
             const objects = this.unpackForkData(response);
             let { data } = objects;
-            data.body = {response: command.data.body.response};
+            data.body = {response: command.data.body.response, logs: command.data.body.logs};
             const { status, message } = objects;
             await PipelineCommand.prototype.afterTaskExecution.call(
                 this,

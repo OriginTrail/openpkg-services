@@ -15,7 +15,7 @@ class DataRequestDidResolveCommand extends PipelineCommand {
      */
     async executeTask(command) {
         const forked = fork('modules/pipelines/openPKG/did-resolve-worker.js');
-        command.data.body.didUrl = `did:ethr:development:${command.data.body.publicKey}`;
+        command.data.body.didUrl = `did:ethr:${command.data.body.publicKey}`;
         command.data.body.node_ip = this.config.node_ip;
         forked.send(JSON.stringify(command.data));
 

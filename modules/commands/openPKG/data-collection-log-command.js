@@ -21,12 +21,12 @@ class DataCollectionLogCommand extends PipelineCommand {
         const { entity, publicKey } = body;
         const timestamp = Date.now().toString();
         command.data.body.otObject = {
-                "@id":`did:ethr:development:${publicKey}#${entity}#${timestamp}`,
+                "@id":`did:ethr:${publicKey}#${entity}#${timestamp}`,
                 "@type":"otObject",
                 "identifiers":[
                     {
                         "@type":"id",
-                        "@value":`did:ethr:development:${publicKey}`
+                        "@value":`did:ethr:${publicKey}`
                     },
                     {
                         "@type":"id",
@@ -38,7 +38,7 @@ class DataCollectionLogCommand extends PipelineCommand {
                     },
                     {
                         "@type":"id",
-                        "@value": `did:ethr:development:${publicKey}#${entity}#${timestamp}`
+                        "@value": `did:ethr:${publicKey}#${entity}#${timestamp}`
                     },
 
                 ],
@@ -52,8 +52,8 @@ class DataCollectionLogCommand extends PipelineCommand {
                                 "request":{activityObject: body.activityObject,entity: body.entity, timestamp: body.timestamp,publicKey: body.publicKey},
                             },
                             "expires": "2099-01-01",
-                            "id": `did:ethr:development:${publicKey}#${timestamp}`,
-                            "issuer": `did:ethr:development:${publicKey}`,
+                            "id": `did:ethr:${publicKey}#${timestamp}`,
+                            "issuer": `did:ethr:${publicKey}`,
                             "type": [
                                 "VerifiableCredential"
                             ]

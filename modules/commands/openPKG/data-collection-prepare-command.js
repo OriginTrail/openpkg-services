@@ -20,12 +20,12 @@ class DataCollectionPrepareCommand extends PipelineCommand {
 
         const { activityObject, entity,timestamp, publicKey } = body;
         body.otObject = {
-                "@id":`did:ethr:development:${publicKey}#${entity}#${timestamp}`,
+                "@id":`did:ethr:${publicKey}#${entity}#${timestamp}`,
                 "@type":"otObject",
                 "identifiers":[
                     {
                         "@type":"id",
-                        "@value":`did:ethr:development:${publicKey}`
+                        "@value":`did:ethr:${publicKey}`
                     },
                     {
                         "@type":"id",
@@ -37,7 +37,7 @@ class DataCollectionPrepareCommand extends PipelineCommand {
                     },
                     {
                         "@type":"id",
-                        "@value": `did:ethr:development:${publicKey}#${entity}#${timestamp}`
+                        "@value": `did:ethr:${publicKey}#${entity}#${timestamp}`
                     }
                 ],
                 "properties":{
