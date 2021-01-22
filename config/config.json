@@ -1,41 +1,47 @@
 {
   "development": {
-    "node_rpc_ip": "127.0.0.1",
-    "node_rpc_port": 3100,
+    "rpc_ip": "127.0.0.1",
+    "rpc_port": 3100,
     "latest_api_version" : "v1.0",
     "verbose_logging": false,
     "node_ip": "http://127.0.0.1:8900",
     "remote_whitelist": [
-      "127.0.0.1",
-      "178.148.85.7",
-      "198.211.125.230",
-      "198.211.125.138"
-    ]
+      "127.0.0.1"
+    ],
+    "secret": "secret",
+    "publishing": {
+      "enabled": true,
+      "size_limit": 10
+    }
   },
   "staging": {
-    "node_rpc_ip": "127.0.0.1",
-    "node_rpc_port": 3100,
+    "rpc_ip": "127.0.0.1",
+    "rpc_port": 3100,
     "latest_api_version" : "v1.0",
-    "verbose_logging": true,
+    "verbose_logging": false,
     "node_ip": "https://develop-staging-pr-lewis-hickle-81.origin-trail.network:8900",
     "remote_whitelist": [
-      "127.0.0.1",
-      "178.148.85.7",
-      "198.211.125.230",
-      "198.211.125.138"
-    ]
+      "127.0.0.1"
+    ],
+    "secret": "secret",
+    "publishing": {
+      "enabled": true,
+      "size_limit": 10
+    }
   },
   "production": {
-    "node_rpc_ip": "127.0.0.1",
-    "node_rpc_port": 3100,
+    "rpc_ip": "127.0.0.1",
+    "rpc_port": 3100,
     "latest_api_version" : "v1.0",
-    "verbose_logging": true,
+    "verbose_logging": false,
     "node_ip": "http://127.0.0.1:8900",
     "remote_whitelist": [
-      "127.0.0.1",
-      "178.148.85.7",
-      "198.211.125.230",
-      "198.211.125.138"
-    ]
+      "127.0.0.1"
+    ],
+    "secret": "secret",
+    "publishing": {
+      "enabled": true,
+      "size_limit": 100
+    }
   }
 }

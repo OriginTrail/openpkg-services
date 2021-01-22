@@ -3,20 +3,28 @@ const jwt = require('jsonwebtoken');
 class AuthenticationUtilities {
     static createBearerToken(data, private_key) {
         return jwt.sign({
-            exp: Math.floor(Date.now() / 1000) + (60 * 60),
             data,
         }, private_key);
     }
 
-    static async validateToken(user, token) {
-        const result = await user.findOne({
-            where: {
-                token,
-            },
-        });
+    static async validateToken(user, token, secret) {
+        try{
+            jwt.verify(token, secret);
+            const result = await user.findOne({
+                where: {
+                    token,
+                },
+            });
 
-        if (!result) { return null; }
-        return result;
+            if (result){
+                return result;
+            }
+        } catch (e)
+        {
+            return null;
+        }
+
+        return null;
     }
 
     static validateIPAddress(request_ip, remote_access) {

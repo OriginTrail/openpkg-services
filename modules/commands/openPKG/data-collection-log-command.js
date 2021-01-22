@@ -68,6 +68,8 @@ class DataCollectionLogCommand extends PipelineCommand {
         const forked = fork('modules/pipelines/openPKG/staging-data-create-worker.js');
 
         command.data.body.node_ip = this.config.node_ip;
+        command.data.body.size_limit = this.config.publishing.size_limit;
+        command.data.body.publishing = this.config.publishing.enabled;
         forked.send(JSON.stringify(command.data));
 
         forked.on('message', async (response) => {

@@ -103,7 +103,7 @@ class RestApiController {
 
         passport.use(new Strategy(async (token, done) => {
             // todo this code snippet can be replaced with signature verification
-            const user = await AuthUtilities.validateToken(models.user, token);
+            const user = await AuthUtilities.validateToken(models.user, token, this.config.secret);
             if (!user) {
                 return done(null, false);
             }
@@ -112,14 +112,14 @@ class RestApiController {
 
 
         // TODO: Temp solution to listen all adapters in local net.
-        let serverListenAddress = this.config.node_rpc_ip;
+        let serverListenAddress = this.config.rpc_ip;
         if (ip.isLoopback(serverListenAddress)) {
             serverListenAddress = '0.0.0.0';
         }
 
         // promisified server.listen()
         const startServer = () => new Promise((resolve, reject) => {
-            server.listen(this.config.node_rpc_port, serverListenAddress, (err) => {
+            server.listen(this.config.rpc_port, serverListenAddress, (err) => {
                 if (err) {
                     reject(err);
                 } else {

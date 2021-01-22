@@ -462,6 +462,10 @@ class DataPipelineService {
     }
 
     async setupEnvironment() {
+        if (!fs.existsSync('resources')) {
+            fs.mkdirSync('resources');
+        }
+
         // await models.task.destroy({
         //     where: {},
         //     truncate: true,
@@ -503,34 +507,30 @@ class DataPipelineService {
         //     truncate: true,
         // });
 
-        if (!fs.existsSync('resources')) {
-            fs.mkdirSync('resources');
-        }
-
-        let user = await models.user.findOne({
-            where: {
-                email: 'demo@origin-trail.com',
-            },
-        });
-
-        if (!user) {
-            user = await models.user.create({
-                email: 'demo@origin-trail.com',
-                public_key: '',
-                token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
-            });
-
-            const role = await models.role.create({
-                name: 'Administrator role',
-                description: 'Administrator role',
-                is_admin: true,
-            });
-
-            await models.user_role.create({
-                user_id: user.id,
-                role_id: role.id,
-            });
-        }
+        // let user = await models.user.findOne({
+        //     where: {
+        //         email: 'demo@origin-trail.com',
+        //     },
+        // });
+        //
+        // if (!user) {
+        //     user = await models.user.create({
+        //         email: 'demo@origin-trail.com',
+        //         public_key: '',
+        //         token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
+        //     });
+        //
+        //     const role = await models.role.create({
+        //         name: 'Administrator role',
+        //         description: 'Administrator role',
+        //         is_admin: true,
+        //     });
+        //
+        //     await models.user_role.create({
+        //         user_id: user.id,
+        //         role_id: role.id,
+        //     });
+        // }
     }
 }
 
