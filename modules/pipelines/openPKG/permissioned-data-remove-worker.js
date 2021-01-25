@@ -14,12 +14,12 @@ process.on('message', async (dataFromParent) => {
             const query = {
                 identifier_value: object.otObject['@id'],
                 identifier_type: 'id',
-                dataset_id:  object.datasets[0]
+                dataset_id:  object.dataset_id
             };
             const response = await client.permissionedDataRemoveRequest(query);
+            // if (response.status === 'FAILED')
+            //     throw new Error('Remove permissioned data is not successful');
         }
-        if (response.status === 'FAILED')
-            throw new Error('Remove permissioned data is not successful');
         process.send(JSON.stringify({
             pipeline_instance_id,
             body: { response },
