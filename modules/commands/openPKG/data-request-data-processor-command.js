@@ -33,6 +33,55 @@ class DataRequestDataProcessorCommand extends PipelineCommand {
             .filter(x=>x.otObject.properties.permissioned_data.data != null && x.otObject.properties.permissioned_data.data.claim !=null)
             .map(x=>x.otObject.properties.permissioned_data.data);
 
+        const { entity, publicKey } = body;
+        const timestamp = Date.now();
+        body.otObject = {
+            "@id":`did:ethr:${publicKey}#${entity}#${timestamp}`,
+            "@type":"otObject",
+            "identifiers":[
+                {
+                    "@type":"id",
+                    "@value":`did:ethr:${publicKey}`
+                },
+                {
+                    "@type":"id",
+                    "@value": entity
+                },
+                {
+                    "@type":"timestamp",
+                    "@value": timestamp
+                },
+                {
+                    "@type":"id",
+                    "@value": `did:ethr:${publicKey}#${entity}#${timestamp}`
+                },
+            ],
+            "properties":{
+                "permissioned_data": {
+                    "data": {
+                        "@context": [
+                            "https://w3id.org/credentials/v1"
+                        ],
+                        "claim": {
+                            "request":{message: body.message,entity: body.entity,publicKey: body.publicKey, timestamp: body.timestamp,},
+                        },
+                        "expires": "2099-01-01",
+                        "id": `did:ethr:${publicKey}#${timestamp}`,
+                        "issuer": `did:ethr:${publicKey}`,
+                        "type": [
+                            "VerifiableCredential"
+                        ]
+                    }
+                }
+            },
+            "relations":[
+
+            ]
+        };
+
+        body.logs.push(body.otObject.properties.permissioned_data.data);
+        body.response.push({object_id:body.otObject['@id'], otObject: body.otObject});
+
         return {
             pipeline_instance_id,
             body,
