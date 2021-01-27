@@ -67,6 +67,14 @@ class RestApiController {
             },
         };
 
+        if (this.config.rpc_use_ssl) {
+            Object.assign(options, {
+                key: fs.readFileSync(this.config.rpc_ssl_key_path),
+                certificate: fs.readFileSync(this.config.rpc_ssl_cert_path),
+                rejectUnauthorized: true,
+            });
+        }
+
         const server = restify.createServer(options);
 
         const parseLatest = (req, res, next) => {

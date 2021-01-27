@@ -2,6 +2,9 @@
   "development": {
     "rpc_ip": "127.0.0.1",
     "rpc_port": 3100,
+    "rpc_use_ssl": false,
+    "rpc_ssl_key_path": "",
+    "rpc_ssl_cert_path": "",
     "latest_api_version" : "v1.0",
     "verbose_logging": false,
     "node_ip": "http://127.0.0.1:8900",
@@ -17,6 +20,9 @@
   "staging": {
     "rpc_ip": "127.0.0.1",
     "rpc_port": 3100,
+    "rpc_use_ssl": false,
+    "rpc_ssl_key_path": "",
+    "rpc_ssl_cert_path": "",
     "latest_api_version" : "v1.0",
     "verbose_logging": false,
     "node_ip": "https://develop-staging-pr-lewis-hickle-81.origin-trail.network:8900",
@@ -32,6 +38,9 @@
   "production": {
     "rpc_ip": "127.0.0.1",
     "rpc_port": 3100,
+    "rpc_use_ssl": false,
+    "rpc_ssl_key_path": "",
+    "rpc_ssl_cert_path": "",
     "latest_api_version" : "v1.0",
     "verbose_logging": false,
     "node_ip": "http://127.0.0.1:8900",
