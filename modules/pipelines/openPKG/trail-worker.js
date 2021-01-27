@@ -15,7 +15,7 @@ process.on('message', async (dataFromParent) => {
 
         const subQuery = {
             "unique_identifiers": uniqueIdentifiers.map(x=>x.unique_identifier),
-            "depth": 2,
+            "depth": 0,
         };
 
         const { handler_id } = await client.trailFindRequest(subQuery);
