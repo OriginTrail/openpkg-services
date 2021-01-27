@@ -1,5 +1,6 @@
 const ip = require('ip');
 const restify = require('restify');
+const fs = require('fs');
 const corsMiddleware = require('restify-cors-middleware');
 const pjson = require('../../package.json');
 const sortedStringify = require('sorted-json-stringify');
